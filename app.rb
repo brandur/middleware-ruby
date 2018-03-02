@@ -59,4 +59,4 @@ app = Rack::Builder.new do
   run HelloWorldApp
 end
 
-Rack::Server.start :app => app
+Rack::Server.start app: app
