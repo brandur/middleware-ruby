@@ -14,11 +14,13 @@ class LogInitializerMiddleware
 
   def call(env)
     logger = Logger.new(STDOUT)
+
     original_formatter = Logger::Formatter.new
-    logger.formatter = proc { |severity, datetime, progname, msg|
+    logger.formatter = ->(severity, datetime, progname, msg) {
       msg = "Request #{env['app.request_id']}: #{msg}"
       original_formatter.call(severity, datetime, progname, msg)
     }
+
     env['app.logger'] = logger
     @app.call(env)
   end
